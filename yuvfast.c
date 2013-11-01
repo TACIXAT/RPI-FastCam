@@ -251,8 +251,6 @@ static int parse_cmdline(int argc, const char **argv, RASPISTILLYUV_STATE *state
 			else
 				valid = 0;
 			break;
-		}
-
 		case CommandVerbose: // display lots of data during run
 			state->verbose = 1;
 			break;
@@ -265,7 +263,6 @@ static int parse_cmdline(int argc, const char **argv, RASPISTILLYUV_STATE *state
 			else
 				valid = 0;
 			break;
-		}
 
 		case CommandTimelapse:
 			if (sscanf(argv[i + 1], "%u", &state->timelapse) != 1)
