@@ -239,7 +239,7 @@ static int parse_cmdline(int argc, const char **argv, RASPISTILLYUV_STATE *state
 				i++;
 			break;
 
-		case CommandOutput:  // output filename {
+		case CommandOutput: ; // output filename {
 			int len = strlen(argv[i + 1]);
 			if (len) {
 				state->filename = malloc(len + 1);
@@ -454,21 +454,20 @@ static MMAL_STATUS_T create_camera_component(RASPISTILLYUV_STATE *state) {
 		goto error;
 	}
 
-	//  set up the camera configuration {
-		MMAL_PARAMETER_CAMERA_CONFIG_T cam_config = { { MMAL_PARAMETER_CAMERA_CONFIG, sizeof(cam_config) },
-			.max_stills_w = state->width,
-			.max_stills_h = state->height,
-			.stills_yuv422 = 0,
-			.one_shot_stills = 1,
-			.max_preview_video_w = state->preview_parameters.previewWindow.width,
-			.max_preview_video_h = state->preview_parameters.previewWindow.height,
-			.num_preview_video_frames = 3,
-			.stills_capture_circular_buffer_height = 0,
-			.fast_preview_resume = 0,
-			.use_stc_timestamp = MMAL_PARAM_TIMESTAMP_MODE_RESET_STC
-		};
-		mmal_port_parameter_set(camera->control, &cam_config.hdr);
-	}
+	//  set up the camera configuration 
+	MMAL_PARAMETER_CAMERA_CONFIG_T cam_config = { { MMAL_PARAMETER_CAMERA_CONFIG, sizeof(cam_config) },
+		.max_stills_w = state->width,
+		.max_stills_h = state->height,
+		.stills_yuv422 = 0,
+		.one_shot_stills = 1,
+		.max_preview_video_w = state->preview_parameters.previewWindow.width,
+		.max_preview_video_h = state->preview_parameters.previewWindow.height,
+		.num_preview_video_frames = 3,
+		.stills_capture_circular_buffer_height = 0,
+		.fast_preview_resume = 0,
+		.use_stc_timestamp = MMAL_PARAM_TIMESTAMP_MODE_RESET_STC
+	};
+	mmal_port_parameter_set(camera->control, &cam_config.hdr);
 
 	raspicamcontrol_set_all_parameters(camera, &state->camera_parameters);
 
@@ -564,7 +563,6 @@ static MMAL_STATUS_T create_camera_component(RASPISTILLYUV_STATE *state) {
 	return status;
 
 error:
-
 	if (camera)
 		mmal_component_destroy(camera);
 
